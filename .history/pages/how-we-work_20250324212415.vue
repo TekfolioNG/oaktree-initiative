@@ -570,21 +570,21 @@ definePageMeta({
 });
 
 useSeoMeta({
-    title: 'Our Vision | The OakTree Empowerment Intiative',
-    ogTitle: 'Our Vision | The OakTree Empowerment Intiative',
-    titleTemplate: 'Our Vision | The OakTree Empowerment Intiative',
+    title: 'Our Vision | The OakTree Empowerment Initiative',
+    ogTitle: 'Our Vision | The OakTree Empowerment Initiative',
+    titleTemplate: 'Our Vision | The OakTree Empowerment Initiative',
     description: 'Rebuilding Lives & Communities',
     ogDescription: 'Rebuilding Lives & Communities',
 
     twitterCard: 'summary_large_image',
-    twitterTitle: 'Our Vision | The OakTree Empowerment Intiative',
-    twitterDescription: 'Our Vision | The OakTree Empowerment Intiative',
+    twitterTitle: 'Our Vision | The OakTree Empowerment Initiative',
+    twitterDescription: 'Our Vision | The OakTree Empowerment Initiative',
 
     ogImage: {
         url: 'https://oaktreeinitiative.org/toei-empowerment.jpg',
         width: 1200,
         height: 630,
-        alt: 'The OakTree Empowerment Intiative - Rebuilding Lives & Communities'
+        alt: 'The OakTree Empowerment Initiative - Rebuilding Lives & Communities'
     },
     twitterImage: 'https://oaktreeinitiative.org/toei-empowerment.jpg'
 });

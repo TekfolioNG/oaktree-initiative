@@ -147,21 +147,21 @@ definePageMeta({
 });
 
 useSeoMeta({
-  title: 'Contact Us|The OakTree Empowerment Intiative',
-  ogTitle: 'The OakTree Empowerment Intiative',
-  titleTemplate: 'The OakTree Empowerment Intiative',
+  title: 'Contact Us|The OakTree Empowerment Initiative',
+  ogTitle: 'The OakTree Empowerment Initiative',
+  titleTemplate: 'The OakTree Empowerment Initiative',
   description: 'Rebuilding Lives & Communities',
   ogDescription: 'Rebuilding Lives & Communities',
 
   twitterCard: 'summary_large_image',
-  twitterTitle: 'The OakTree Empowerment Intiative',
+  twitterTitle: 'The OakTree Empowerment Initiative',
   twitterDescription: 'Rebuilding Lives & Communities',
 
   ogImage: {
     url: 'https://oaktreeinitiative.org/toei-empowerment.jpg',
     width: 1200,
     height: 630,
-    alt: 'The OakTree Empowerment Intiative - Rebuilding Lives & Communities'
+    alt: 'The OakTree Empowerment Initiative - Rebuilding Lives & Communities'
   },
   twitterImage: 'https://oaktreeinitiative.org/toei-empowerment.jpg'
 });
