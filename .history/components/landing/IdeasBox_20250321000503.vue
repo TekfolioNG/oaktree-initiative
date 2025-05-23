@@ -262,7 +262,7 @@ const ideaDescription = ref('');
 const involvement = ref('maybe'); // Default value
 
 // Web3Forms access key - replace with your actual key
-const WEB3FORMS_ACCESS_KEY = '1d005cda-aa81-48a8-99fd-d5a6cb3d5c66';
+const WEB3FORMS_ACCESS_KEY = '67142dc6-5c30-4ff6-b1e1-fe03f014faac';
 
 // Animation state
 const isAnimating = ref(false);

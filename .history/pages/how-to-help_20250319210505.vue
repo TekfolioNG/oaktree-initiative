@@ -280,7 +280,7 @@ const initializePayment = async () => {
     const web3FormResponse = await $fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       body: {
-        access_key: '1d005cda-aa81-48a8-99fd-d5a6cb3d5c66', // Replace with your actual key
+        access_key: '67142dc6-5c30-4ff6-b1e1-fe03f014faac', // Replace with your actual key
         subject: `Donation from ${formData.value.name} for ${formData.value.project}`,
         from_name: 'The Oaktree Empowerment Initiative',
         name: formData.value.name,
