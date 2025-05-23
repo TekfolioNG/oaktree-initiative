@@ -25,12 +25,6 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: "cloudflare-pages",
-    storage: {
-      redis: {
-        driver: 'memory', // Use memory storage for Cloudflare Pages
-      }
-    },
-    
     output: {
       publicDir: ".output/public", // Ensure this is set correctly
     },// Use "cloudflare-pages" for Cloudflare Pages
@@ -52,5 +46,4 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: "2025-01-25",
-  
 });

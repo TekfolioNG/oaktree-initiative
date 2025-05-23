@@ -52,5 +52,21 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: "2025-01-25",
-  
+  routeRules: {
+    '/api/donations/initialize': {
+      cors: true,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST'
+      },
+      swr: 60,
+      cache: false,
+      security: {
+        rateLimiter: {
+          tokensPerInterval: 5,
+          interval: 'minute'
+        }
+      }
+    }
+  }
 });

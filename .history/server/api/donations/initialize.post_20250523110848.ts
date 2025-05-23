@@ -22,8 +22,37 @@ interface PaystackResponse {
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<DonationRequest>(event);
-  const config = useRuntimeConfig(event);
-  // Add this debug log
+  const config = useRuntimeConfig();
+
+  // Validate required configuration
+  if (!config.paystackSecretKey) {
+    console.error('Paystack secret key is missing');
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Server configuration error'
+    });
+  }
+
+  // Validate request data
+  try {
+    if (!body.email || !body.amount || !body.currency || !body.name) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Missing required fields'
+      });
+    }
+
+    if (body.amount < 1000) { // Minimum 10 NGN or equivalent
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Amount too small'
+      });
+    }
+  } catch (validationError) {
+    console.error('Validation error:', validationError);
+    throw validationError;
+  }
+
   console.log('Initializing payment with data:', JSON.stringify(body, null, 2));
 
   try {
@@ -32,7 +61,6 @@ export default defineEventHandler(async (event) => {
     
     // Send donation details to Web3Forms
     try {
-      // Add this debug log
       console.log('Sending donation intent to Web3Forms');
       
       await $fetch('https://api.web3forms.com/submit', {
@@ -55,11 +83,10 @@ export default defineEventHandler(async (event) => {
       
       console.log('Donation intent email sent successfully');
     } catch (emailError) {
-      // Add this debug log with full error details
       console.error('Failed to send donation intent email:', emailError);
+      // Continue with payment even if email fails
     }
     
-    // Add this debug log
     console.log('Sending payment request to Paystack');
     
     // Initialize transaction with Paystack
@@ -82,23 +109,54 @@ export default defineEventHandler(async (event) => {
             project: body.project,
             organization: 'The OakTree Empowerment Initiative',
           },
-          callback_url: `${config.public.siteUrl}/donation/success`, // Add your success page URL
+          callback_url: `${config.public.siteUrl}/donation.success`,
         },
       }
     );
     
-    // Add this debug log
     console.log('Paystack response:', JSON.stringify(response, null, 2));
-    return response.data;
-  } catch (error) {
-    // Enhanced error logging
-    console.error('Paystack initialization error details:', error);
-    if (error.response) {
-      console.error('Paystack API response:', JSON.stringify(error.response, null, 2));
+    
+    if (!response.status || !response.data?.authorization_url) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Invalid response from payment gateway'
+      });
     }
+    
+    return response.data;
+  } catch (error: unknown) {
+    let errorMessage = 'Failed to initialize payment';
+    let statusCode = 500;
+    
+    console.error('Payment initialization error:', error);
+    
+    if (error instanceof Error) {
+      // Handle Paystack API errors
+      if ('response' in error) {
+        const paystackError = (error as any).response;
+        console.error('Paystack API Error:', paystackError);
+        
+        if (paystackError.status === 401) {
+          errorMessage = 'Invalid payment gateway credentials';
+          statusCode = 401;
+        } else if (paystackError.status === 400) {
+          errorMessage = paystackError.data?.message || 'Invalid payment request';
+          statusCode = 400;
+        }
+      } else if ('statusCode' in error) {
+        // Preserve existing error status
+        statusCode = (error as any).statusCode;
+        errorMessage = (error as any).statusMessage || errorMessage;
+      }
+    }
+    
     throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to initialize payment',
+      statusCode,
+      statusMessage: errorMessage,
+      data: {
+        originalError: error instanceof Error ? error.message : String(error),
+        reference: reference || 'N/A'
+      }
     });
   }
 });
