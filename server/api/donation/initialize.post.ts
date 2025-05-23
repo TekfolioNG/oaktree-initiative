@@ -77,7 +77,7 @@ export default defineEventHandler(async (event) => {
     amount: body.amount / 100 // Log human-readable amount
   }, null, 2));
   console.log('Transaction reference:', reference);
-  console.log('Callback URL:', `${config.public.siteUrl}/donation.success`);
+  console.log('Callback URL:', `${config.public.siteUrl}/donation-success`);
 
   try {
     // Send donation details to Web3Forms
