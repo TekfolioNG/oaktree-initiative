@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     // Send mail
     await transporter.sendMail({
       from: "your-email@gmail.com",
-      to: body.to || "kelvinkeshi@gmail.com",
+      to: body.to || "support@oaktreeinitiative.org",
       subject: body.subject || "New Idea Submission",
       text: body.body,
     });
