@@ -21,8 +21,20 @@ interface PaystackResponse {
 }
 
 export default defineEventHandler(async (event) => {
+  // Method verification
+  if (event.method !== 'POST') {
+    throw createError({
+      statusCode: 405,
+      statusMessage: 'Method Not Allowed',
+      data: {
+        message: 'Only POST requests are allowed',
+        allowedMethods: ['POST']
+      }
+    });
+  }
+
   const body = await readBody<DonationRequest>(event);
-  const config = useRuntimeConfig(event);
+  const config = useRuntimeConfig();
   const reference = `TOEI-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
   // Enhanced configuration validation
@@ -60,7 +72,7 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    if (body.amount < 1000) { // Minimum 10 NGN or equivalent
+    if (body.amount < 1000) {
       throw createError({
         statusCode: 400,
         statusMessage: 'Amount too small',
@@ -72,18 +84,9 @@ export default defineEventHandler(async (event) => {
     throw validationError;
   }
 
-  console.log('Initializing payment with data:', JSON.stringify({
-    ...body,
-    amount: body.amount / 100 // Log human-readable amount
-  }, null, 2));
-  console.log('Transaction reference:', reference);
-  console.log('Callback URL:', `${config.public.siteUrl}/donation-success`);
-
   try {
     // Send donation details to Web3Forms
     try {
-      console.log('Sending donation intent to Web3Forms');
-      
       await $fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: {
@@ -96,19 +99,14 @@ export default defineEventHandler(async (event) => {
           phone: body.phone || 'Not provided',
           project: body.project,
           currency: body.currency,
-          amount: body.amount / 100, // Convert back from kobo/cents
+          amount: body.amount / 100,
           status: 'Pending',
           message: `Donation initiated: ${body.currency} ${body.amount / 100} for ${body.project} project. Payment pending.`,
         },
       });
-      
-      console.log('Donation intent email sent successfully');
     } catch (emailError) {
       console.error('Failed to send donation intent email:', emailError);
-      // Continue with payment even if email fails
     }
-    
-    console.log('Sending payment request to Paystack');
     
     // Initialize transaction with Paystack
     const response = await $fetch<PaystackResponse>(
@@ -135,11 +133,7 @@ export default defineEventHandler(async (event) => {
       }
     );
     
-    console.log('Paystack response status:', response.status);
-    console.log('Paystack response message:', response.message);
-    
     if (!response.status || !response.data?.authorization_url) {
-      console.error('Invalid Paystack response:', response);
       throw createError({
         statusCode: 500,
         statusMessage: `Payment gateway error: ${response.message || 'Invalid response'}`,
@@ -147,46 +141,21 @@ export default defineEventHandler(async (event) => {
       });
     }
     
-    console.log('Payment initialization successful. Authorization URL generated.');
     return response.data;
     
   } catch (error: unknown) {
     let errorMessage = 'Failed to initialize payment';
     let statusCode = 500;
     
-    console.error('Payment initialization error:', error);
-    
-    // Enhanced error handling
     if (error && typeof error === 'object') {
-      // Handle fetch errors
-      if ('response' in error || 'data' in error) {
-        const fetchError = error as any;
-        console.error('Fetch error details:', fetchError);
-        
-        if (fetchError.response) {
-          console.error('Response status:', fetchError.response.status);
-          console.error('Response data:', fetchError.response._data);
-          
-          if (fetchError.response.status === 401) {
-            errorMessage = 'Payment gateway authentication failed - check credentials';
-            statusCode = 401;
-          } else if (fetchError.response.status === 400) {
-            errorMessage = fetchError.response._data?.message || 'Invalid payment request';
-            statusCode = 400;
-          } else if (fetchError.response.status >= 500) {
-            errorMessage = 'Payment gateway is currently unavailable';
-            statusCode = 502;
-          }
-        }
-      }
-      // Handle existing error objects
-      else if ('statusCode' in error) {
+      if ('statusCode' in error) {
         statusCode = (error as any).statusCode;
         errorMessage = (error as any).statusMessage || errorMessage;
       }
-      // Handle generic Error objects
-      else if (error instanceof Error) {
-        errorMessage = `Payment initialization failed: ${error.message}`;
+      else if ('response' in error) {
+        const fetchError = error as any;
+        statusCode = fetchError.response?.status || 500;
+        errorMessage = fetchError.response?._data?.message || errorMessage;
       }
     }
     
@@ -194,7 +163,6 @@ export default defineEventHandler(async (event) => {
       statusCode,
       statusMessage: errorMessage,
       data: {
-        originalError: error instanceof Error ? error.message : String(error),
         reference,
         timestamp: new Date().toISOString()
       }

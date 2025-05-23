@@ -52,9 +52,9 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: "2025-01-25",
-
+  
   routeRules: {
-    '/api/donations/**': {
+    '/api/donation/**': {
       cors: true,
       headers: {
         'Access-Control-Allow-Methods': 'POST',
