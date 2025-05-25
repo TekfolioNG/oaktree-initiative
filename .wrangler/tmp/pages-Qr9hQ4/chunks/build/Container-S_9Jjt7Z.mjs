@@ -1,0 +1,2 @@
+import{_ as s,v as e}from"./server.mjs";import{l as o,B as t}from"../routes/renderer.mjs";const n={};const r=n.setup;n.setup=(s,o)=>{const t=e.useSSRContext();return(t.modules||(t.modules=new Set)).add("components/landing/Container.vue"),r?r(s,o):void 0};const a=s(n,[["ssrRender",function(s,n,r,a){n(`<div${o(e.mergeProps({class:"max-w-screen-xl mx-auto px-5"},a))}>`),t(s.$slots,"default",{},null,n,r),n("</div>")}]]);export{a as _};
+//# sourceMappingURL=Container-S_9Jjt7Z.mjs.map

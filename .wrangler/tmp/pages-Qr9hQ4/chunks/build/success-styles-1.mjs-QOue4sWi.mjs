@@ -1,0 +1,2 @@
+const a=".container[data-v-60860935]{margin:2rem auto;max-width:600px;padding:2rem;text-align:center}.loading[data-v-60860935]{color:#666}.error[data-v-60860935]{color:#d32f2f}.success[data-v-60860935]{color:#2e7d32}.receipt[data-v-60860935]{background:#f5f5f5;margin:2rem 0;padding:1rem}.button[data-v-60860935],.receipt[data-v-60860935]{border-radius:4px}.button[data-v-60860935]{background:#4caf50;color:#fff;display:inline-block;padding:.5rem 1rem;text-decoration:none}";export{a as s};
+//# sourceMappingURL=success-styles-1.mjs-QOue4sWi.mjs.map

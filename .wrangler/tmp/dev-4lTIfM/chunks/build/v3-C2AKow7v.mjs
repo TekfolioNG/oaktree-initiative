@@ -1,0 +1,2 @@
+import{t as e,v as t}from"./server.mjs";import{C as n,D as r,E as o}from"../routes/renderer.mjs";function injectHead(n){var o;const s=n||e();return(null==(o=null==s?void 0:s.ssrContext)?void 0:o.head)||(null==s?void 0:s.runWithContext((()=>{if(t.hasInjectionContext())return t.inject(r)})))}function useHead(e,t={}){const n=injectHead(t.nuxt);if(n)return o(e,{head:n,...t})}function useSeoMeta(e,t={}){const r=injectHead(t.nuxt);if(r)return n(e,{head:r,...t})}export{useHead as a,useSeoMeta as u};
+//# sourceMappingURL=v3-C2AKow7v.mjs.map
