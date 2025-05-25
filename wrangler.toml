@@ -1,7 +1,0 @@
-name = "oaktree-initiative"
-compatibility_date = "2025-05-25"
-
-pages_build_output_dir = ".output/public"
-
-[build]
-command = "yarn build"
