@@ -84,9 +84,9 @@
     <!-- Footer Bottom -->
     <div class="footer-bottom">
       <div class="copyright">
-        <NuxtLink to="https://tekfol.io" target="_blank" class="developer-link">
+        <a href="https://tekfolio.ng" target="_blank" class="developer-link">
           Website Development by Tekfolio Ltd
-        </NuxtLink>
+        </a>
       </div>
     </div>
   </footer>
