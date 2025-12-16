@@ -27,7 +27,7 @@
           </div>
           <h4 class="card-title">Send us a message</h4>
           <p class="card-description">
-            Fill out the form below and a member of our dedicated team will respond to your inquiry within 24 hours.
+            Fill out the form below and a member of our dedicated team will respond to your enquiry within 24 hours.
           </p>
           <form class="contact-form" @submit.prevent="submitForm" novalidate>
             <!-- Hidden Web3Forms access key -->
