@@ -32,5 +32,6 @@
   },
   "overrides": {
     "@oxc-parser/binding-win32-x64-msvc": "npm:@oxc-parser/binding-linux-x64-gnu"
-  }
+  },
+  "packageManager": "yarn@3.6.3"
 }
