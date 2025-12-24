@@ -106,7 +106,7 @@
             <div class="detail-item">
               <h5 class="detail-title">Email</h5>
               <p class="detail-text">
-                <a href="mailto:admin@oaktreeinitiative.org">admin@oaktreeinitiative.org</a><br>
+                <a href="mailto:support@oaktreeinitiative.org">support@oaktreeinitiative.org</a><br>
 
               </p>
             </div>
