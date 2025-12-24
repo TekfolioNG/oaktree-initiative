@@ -1,4 +1,4 @@
-<template>
+ui<template>
   <footer class="site-footer">
     <div class="footer-container">
       <!-- Column 1: About Us -->
@@ -46,7 +46,7 @@
           <p>121 Ogudu Road, Lagos, Nigeria</p>
           <p>(+234) 703 631 9444</p>
           <p>0814 857 1524</p>
-            <p>info@oaktreeinitiative.org</p>
+            <p>enquiry@oaktreeinitiative.org</p>
           <p>support@oaktreeinitiative.org</p>
           <NuxtLink to="/contact-us" class="contact-link">Contact Us</NuxtLink>
         </div>
